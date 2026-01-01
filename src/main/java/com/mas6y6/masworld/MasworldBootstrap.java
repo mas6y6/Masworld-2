@@ -29,6 +29,8 @@ public class MasworldBootstrap implements PluginBootstrap {
     public void bootstrap(BootstrapContext context) {
         LifecycleEventManager<BootstrapContext> manager = context.getLifecycleManager();
 
+
+
         final var MULTIMINE_KEY = EnchantmentKeys.create(Key.key("masworld:multimine"));
         final var MULTIXP_KEY = EnchantmentKeys.create(Key.key("masworld:multixp"));
         final var ITEMMAGNET_KEY = EnchantmentKeys.create(Key.key("masworld:itemmagnet"));

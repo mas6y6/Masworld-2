@@ -1,0 +1,48 @@
+name: Masworld
+version: '2.00'
+main: com.mas6y6.masworld.Masworld
+api-version: '1.21'
+description: Masworld SMP Plugin
+bootstrapper: com.mas6y6.masworld.MasworldPluginBootstrap
+permissions:
+  masworld.fixitems:
+    description: Allows the player to fix items with NBT
+    default: op
+
+  masworld.admin:
+    description: Allows the player to use admin commands
+    default: op
+
+  masworld.itemeffects:
+    description: Allow the player to use the ItemEffects system
+    default: true
+
+  masworld.itemeffects.debug:
+    description: Allows the player to use the debug commands
+    default: op
+
+  masworld.debug:
+    description: Add CustomModelData to item
+    default: op
+
+  masworld.itemeffects.editor:
+    description: Allows you to make EffectRegisteries
+    default: op
+
+  masworld.adminstick:
+    description: I want admin stick
+    default: op
+dependencies:
+  server:
+    NBTAPI:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    Vault:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    CraftEngine:
+      load: BEFORE
+      required: true
+      join-classpath: true

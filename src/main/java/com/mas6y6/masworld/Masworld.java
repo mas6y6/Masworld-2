@@ -12,6 +12,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,14 +44,14 @@ public final class Masworld extends JavaPlugin {
         config = getConfig();
 
         String path = config.getString("items_directory", "items/");
-        File dir = new File(path);
-        if (!dir.isAbsolute()) {
-            dir = new File(getDataFolder(), path);
+        File items_dir = new File(path);
+        if (!items_dir.isAbsolute()) {
+            items_dir = new File(getDataFolder(), path);
         }
 
-        if (!dir.exists()) {
-            if (!dir.mkdirs()) {
-                getLogger().severe("Failed to create effect directory at: " + dir.getAbsolutePath());
+        if (!items_dir.exists()) {
+            if (!items_dir.mkdirs()) {
+                getLogger().severe("Failed to create effect directory at: " + items_dir.getAbsolutePath());
                 getServer().getPluginManager().disablePlugin(this);
                 return;
             }
@@ -60,7 +61,7 @@ public final class Masworld extends JavaPlugin {
 
         logger.info("Starting ItemEffects.");
 
-        itemEffects = new ItemEffects(dir);
+        itemEffects = new ItemEffects(items_dir);
         try {
             itemEffects.loadEffects();
         } catch (Exception e) {

@@ -1,0 +1,26 @@
+{
+  "cfgver": 1,
+
+  "id": 1,
+  "name": "minerslight",
+  "disabled": false,
+
+  "onlysneaking": false,
+
+  "dimensions": [
+    "world",
+    "world_nether",
+    "world_the_end"
+  ],
+  "slots": [
+    "helmet",
+    "mainhand",
+    "offhand"
+  ],
+  "effects": {
+    "minecraft:night_vision": {
+      "amplifier": 1,
+      "priority": 1
+    }
+  }
+}

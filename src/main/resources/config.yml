@@ -1,0 +1,4 @@
+config:
+  item_directory: "items/"
+  default_effect_duration: 999999
+  debug_mode: true

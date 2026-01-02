@@ -11,9 +11,9 @@ import java.util.List;
 
 public class RecipeBook implements InventoryHolder {
     private final Inventory inventory;
-    private final List<RecipeHolder> recipeMenus;
+    private final List<RecipeBookPage> recipeMenus;
 
-    public RecipeBook(List<RecipeHolder> recipeMenus) {
+    public RecipeBook(List<RecipeBookPage> recipeMenus) {
         this.inventory = Masworld.instance().getServer().createInventory(
                 this,
                 54,

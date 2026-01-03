@@ -1,9 +1,9 @@
 name: Masworld
-version: '2.00'
+version: '2.0.3'
 main: com.mas6y6.masworld.Masworld
 api-version: '1.21'
 description: Masworld SMP Plugin
-bootstrapper: com.mas6y6.masworld.MasworldPluginBootstrap
+bootstrapper: com.mas6y6.masworld.MasworldBootstrap
 permissions:
   masworld.fixitems:
     description: Allows the player to fix items with NBT

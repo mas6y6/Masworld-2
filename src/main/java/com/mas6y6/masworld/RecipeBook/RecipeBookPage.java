@@ -13,4 +13,8 @@ public class RecipeBookPage {
     public RecipeEntry getRecipeEntry(int index) {
         return recipes.get(index);
     }
+
+    public List<RecipeEntry> getRecipes() {
+        return recipes;
+    }
 }

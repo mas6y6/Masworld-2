@@ -6,23 +6,28 @@ import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.dialog.Dialog;
+import io.papermc.paper.registry.data.dialog.ActionButton;
 import io.papermc.paper.registry.data.dialog.DialogBase;
+import io.papermc.paper.registry.data.dialog.action.DialogAction;
 import io.papermc.paper.registry.data.dialog.type.DialogType;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public class TestCommands {
     public LiteralArgumentBuilder<CommandSourceStack> commands = Commands.literal("test");
 
     public void buildCommands(LiteralArgumentBuilder<CommandSourceStack> root) {
-        root.then(commands);
-
-        root.then(
+        commands.then(
                 Commands.literal("dialog_test")
                         .executes(this::dialogTestCommand)
         );
+
+        root.then(commands);
     }
 
     private int dialogTestCommand(CommandContext<CommandSourceStack> context) {
@@ -37,11 +42,28 @@ public class TestCommands {
         Dialog dialog = Dialog.create(builder -> {
             DialogBase.Builder base = DialogBase.builder(Component.text("Title"));
 
-
+            List<ActionButton> actions = List.of(
+                    ActionButton.create(Component.text("Bank Account"),
+                            Component.text("Click to open bank account"),
+                            100,
+                            DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing\"}"))),
+                    ActionButton.create(Component.text("Bank Account"),
+                            Component.text("Click to open bank account"),
+                            100,
+                            DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing1\"}"))),
+                    ActionButton.create(Component.text("Bank Account"),
+                            Component.text("Click to open bank account"),
+                            100,
+                            DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing2\"}"))),
+                    ActionButton.create(Component.text("Bank Account"),
+                            Component.text("Click to open bank account"),
+                            100,
+                            DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing3\"}")))
+            );
 
             builder.empty()
                     .base(base.build())
-                    .type(DialogType.multiAction());
+                    .type(DialogType.multiAction(actions).build());
         });
 
         player.showDialog(dialog);

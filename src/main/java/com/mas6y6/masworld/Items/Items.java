@@ -6,11 +6,10 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.registrar.ReloadableRegistrarEvent;
-import org.jetbrains.annotations.NotNull;
 
 public class Items {
     public AttributesHandle attributesHandle;
-
+    public AdminStickHandler adminStickHandler;
     public PumpkinBlindness pumpkinBlindness;
     
     public Items() {
@@ -19,9 +18,12 @@ public class Items {
 
         this.pumpkinBlindness = new PumpkinBlindness();
         this.attributesHandle = new AttributesHandle();
+        this.adminStickHandler = new AdminStickHandler();
+
     }
 
-    public void commandsRegister(LiteralArgumentBuilder<CommandSourceStack> root) {
+    public void commandsRegister(LiteralArgumentBuilder<CommandSourceStack> root, ReloadableRegistrarEvent<Commands> commands) {
         root.then(attributesHandle.buildCommands());
+        commands.registrar().register(adminStickHandler.buildAdminStickCMD());
     }
 }

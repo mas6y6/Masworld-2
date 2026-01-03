@@ -87,7 +87,9 @@ public final class Masworld extends JavaPlugin {
             commands.registrar().register(this.xpBottler.cmd.build());
             root.then(Commands.literal("reload").executes(this::pluginReloadcommmand));
             root.then(itemEffects.buildCommands());
-            items.commandsRegister(root);
+            items.commandsRegister(root, commands);
+
+
 
             testCommands.buildCommands(root);
 

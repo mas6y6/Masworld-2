@@ -2,6 +2,7 @@ package com.mas6y6.masworld;
 
 import com.mas6y6.masworld.Items.GetAdminStick;
 import com.mas6y6.masworld.Objects.CraftEngineUtils;
+import io.papermc.paper.datacomponent.item.AttackRange;
 import net.kyori.adventure.key.Key;
 import net.momirealms.craftengine.bukkit.api.CraftEngineItems;
 import net.momirealms.craftengine.core.item.CustomItem;
@@ -14,15 +15,21 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerItemHeldEvent;
+//import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import io.papermc.paper.event.packet.ClientTickEndEvent;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.Collection;
 
 public class EventsListener implements Listener {
     public Masworld masworld;
@@ -66,7 +73,7 @@ public class EventsListener implements Listener {
 
     /*
     @EventHandler
-    public void onAdminStickEquipped(PlayerItemHeldEvent event) {
+    public void onAdminStickEquipped(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack adminStick = GetAdminStick.adminStick();
         ItemStack hand = player.getInventory().getItemInMainHand();
@@ -76,7 +83,7 @@ public class EventsListener implements Listener {
 
         Key reachKey = Key.key("masworld", "adminstick");
         NamespacedKey reachKey_nk = new NamespacedKey("masworld", "adminstick");
-        AttributeModifier reachBonus = new AttributeModifier(reachKey_nk, 100.0, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier reachBonus = new AttributeModifier(reachKey_nk, 64.0, AttributeModifier.Operation.ADD_NUMBER);
 
         // Remove modifier if player is not holding the admin stick
         boolean holdingAdminStick = false;
@@ -100,4 +107,26 @@ public class EventsListener implements Listener {
         }
     }
     */
+    @EventHandler
+    public void attackRangeValueSet(ClientTickEndEvent event) {
+        Player player = event.getPlayer();
+        ItemStack hand = player.getInventory().getItemInMainHand();
+        AttributeInstance rangeAttr = player.getAttribute(Attribute.ENTITY_INTERACTION_RANGE);
+        Collection<AttributeModifier> modifiers = rangeAttr.getModifiers();
+        NamespacedKey reachKey_nk = new NamespacedKey("masworld", "reachbonus");
+        if (rangeAttr == null) return;
+        if (hand != null) {
+            AttackRange itemrange = hand.getData(DataComponentTypes.ATTACK_RANGE);
+            if (itemrange != null) {
+                AttributeModifier reachBonus = new AttributeModifier(reachKey_nk, itemrange.maxCreativeReach(), AttributeModifier.Operation.ADD_NUMBER);
+                rangeAttr.addModifier(reachBonus);
+            } else {
+                for (AttributeModifier mod : modifiers) {
+                    if (mod.getKey().equals(reachKey_nk)) {
+                        rangeAttr.removeModifier(reachKey_nk);
+                    }
+                }
+            }
+        }
+    }
 }

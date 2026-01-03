@@ -57,7 +57,9 @@ public class RecipeBook implements InventoryHolder {
 
         /* Menu Interaction */
 
-        inventory.setItem(45,RecipeBookUtils.getPreviousButton(Material.PAPER));
+        if (!(this.menu_page == 0)) {
+            inventory.setItem(45,RecipeBookUtils.getPreviousButton(Material.PAPER));
+        }
         inventory.setItem(46,RecipeBookUtils.getPlaceholderItem());
         inventory.setItem(47,RecipeBookUtils.getPlaceholderItem());
         inventory.setItem(48,RecipeBookUtils.getPlaceholderItem());
@@ -65,7 +67,9 @@ public class RecipeBook implements InventoryHolder {
         inventory.setItem(50,RecipeBookUtils.getPlaceholderItem());
         inventory.setItem(51,RecipeBookUtils.getPlaceholderItem());
         inventory.setItem(52,RecipeBookUtils.getPlaceholderItem());
-        inventory.setItem(53,RecipeBookUtils.getNextbutton(Material.PAPER));
+        if (!(this.menu_page == this.max_page - 1)) {
+            inventory.setItem(53,RecipeBookUtils.getNextbutton(Material.PAPER));
+        }
 
         /* Menu Interaction */
 

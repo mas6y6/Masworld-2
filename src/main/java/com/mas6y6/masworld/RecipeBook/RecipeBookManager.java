@@ -52,8 +52,6 @@ public class RecipeBookManager {
             RecipeBookPage recipe_page = new RecipeBookPage();
 
             for (String raw_recipe_name : raw_recipe) {
-                if (Bukkit.getRecipe(Utils.parseNamespacedKey(raw_recipe_name)) == null) continue;
-
                 recipe_page.addRecipe(new RecipeEntry(Utils.parseNamespacedKey(raw_recipe_name)));
             }
 

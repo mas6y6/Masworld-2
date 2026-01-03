@@ -16,8 +16,13 @@ public class AdminStickHandler {
     public LiteralCommandNode<CommandSourceStack> buildAdminStickCMD() {
         adminStickCMD.executes(ctx -> {
             CommandSourceStack sender = ctx.getSource();
-            ItemStack adminStick = new GetAdminStick().adminStick();
+            ItemStack adminStick = GetAdminStick.adminStick();
             if (sender.getExecutor() instanceof Player player) {
+                if (!(player.hasPermission("masworld.admin"))) {
+                    player.sendMessage(TextSymbols.error("Your not a admin!"));
+                    return 0;
+                }
+
                 player.getInventory().addItem(adminStick);
 
                 player.sendMessage(TextSymbols.SUCCESS.append(

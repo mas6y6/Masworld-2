@@ -40,30 +40,34 @@ public class TestCommands {
         }
 
         Dialog dialog = Dialog.create(builder -> {
-            DialogBase.Builder base = DialogBase.builder(Component.text("Title"));
+            DialogBase.Builder base = DialogBase.builder(Component.text("Phone"));
+            base.canCloseWithEscape(true);
+            base.pause(true);
 
             List<ActionButton> actions = List.of(
                     ActionButton.create(Component.text("Bank Account"),
                             Component.text("Click to open bank account"),
-                            100,
+                            300,
                             DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing\"}"))),
                     ActionButton.create(Component.text("Bank Account"),
                             Component.text("Click to open bank account"),
-                            100,
+                            300,
                             DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing1\"}"))),
                     ActionButton.create(Component.text("Bank Account"),
                             Component.text("Click to open bank account"),
-                            100,
+                            300,
                             DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing2\"}"))),
                     ActionButton.create(Component.text("Bank Account"),
                             Component.text("Click to open bank account"),
-                            100,
+                            300,
                             DialogAction.staticAction(ClickEvent.runCommand("tellraw @a {text:\"thing3\"}")))
             );
 
             builder.empty()
                     .base(base.build())
-                    .type(DialogType.multiAction(actions).build());
+                    .type(DialogType.multiAction(actions)
+                            .columns(1)
+                            .build());
         });
 
         player.showDialog(dialog);

@@ -89,8 +89,6 @@ public final class Masworld extends JavaPlugin {
             root.then(itemEffects.buildCommands());
             items.commandsRegister(root, commands);
 
-
-
             testCommands.buildCommands(root);
 
             commands.registrar().register(root.build());

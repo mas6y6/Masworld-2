@@ -64,6 +64,7 @@ public class EventsListener implements Listener {
         }
     }
 
+    /*
     @EventHandler
     public void onAdminStickEquipped(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
@@ -98,4 +99,5 @@ public class EventsListener implements Listener {
             }
         }
     }
+    */
 }

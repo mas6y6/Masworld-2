@@ -8,6 +8,8 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import io.papermc.paper.datacomponent.item.AttackRange;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 
 public class GetAdminStick {
     public static ItemStack adminStick() {
@@ -28,7 +30,7 @@ public class GetAdminStick {
         adminStickIM_AR.setValue(100);
         adminStickIM.setAttackRange(adminStickIM_AR);
         */
-       /*
+       
         AttackRange adminstickrange = AttackRange.attackRange()
             .minReach(1.0f)
             .maxReach(10.0f)
@@ -36,7 +38,7 @@ public class GetAdminStick {
             .maxCreativeReach(100.0f)
             .build();
         _adminstick.setData(DataComponentTypes.ATTACK_RANGE, adminstickrange);
-        */
+        
         adminStickIM.setDisplayName(adminStickName);
         adminStickIM.setUnbreakable(true);
         adminStickIM.addEnchant(Enchantment.CHANNELING, 1, true);

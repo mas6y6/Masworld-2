@@ -37,7 +37,7 @@ public class GetAdminStick {
             .minCreativeReach(0.5f)
             .maxCreativeReach(100.0f)
             .build();
-        _adminstick.setData(DataComponentTypes.ATTACK_RANGE, adminstickrange);
+        _adminStick.setData(DataComponentTypes.ATTACK_RANGE, adminstickrange);
         
         adminStickIM.setDisplayName(adminStickName);
         adminStickIM.setUnbreakable(true);

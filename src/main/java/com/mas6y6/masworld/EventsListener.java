@@ -24,7 +24,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import io.papermc.paper.event.packet.ClientTickEndEvent;
+//import io.papermc.paper.event.packet.ClientTickEndEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 
 import java.util.List;
@@ -108,7 +109,7 @@ public class EventsListener implements Listener {
     }
     */
     @EventHandler
-    public void attackRangeValueSet(ClientTickEndEvent event) {
+    public void attackRangeValueSet(PlayerItemHeldEvent event) { //if not, use ClientTickEndEvent
         Player player = event.getPlayer();
         ItemStack hand = player.getInventory().getItemInMainHand();
         AttributeInstance rangeAttr = player.getAttribute(Attribute.ENTITY_INTERACTION_RANGE);
@@ -119,6 +120,11 @@ public class EventsListener implements Listener {
             AttackRange itemrange = hand.getData(DataComponentTypes.ATTACK_RANGE);
             if (itemrange != null) {
                 AttributeModifier reachBonus = new AttributeModifier(reachKey_nk, itemrange.maxCreativeReach(), AttributeModifier.Operation.ADD_NUMBER);
+                for (AttributeModifier mod : modifiers) {
+                    if (mod.getKey().equals(reachKey_nk)) {
+                        rangeAttr.removeModifier(reachKey_nk);
+                    }
+                }
                 rangeAttr.addModifier(reachBonus);
             } else {
                 for (AttributeModifier mod : modifiers) {

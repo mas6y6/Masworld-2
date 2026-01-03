@@ -3,6 +3,8 @@ package com.mas6y6.masworld.RecipeBook;
 import com.mas6y6.masworld.Masworld;
 import io.papermc.paper.persistence.PersistentDataContainerView;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -44,6 +46,8 @@ public class RecipeBookListener implements Listener {
             event.setCancelled(true);
             if (event.getCurrentItem() == null) return;
 
+            if (!(event.getWhoClicked() instanceof Player player)) return;
+
             NamespacedKey gui_id_key = new NamespacedKey("masworld","recipe_gui_id_key");
             NamespacedKey page_num_key = new NamespacedKey("masworld","recipe_book_page_num");
             NamespacedKey recipe_num_key = new NamespacedKey("masworld","recipe_book_num");
@@ -52,6 +56,7 @@ public class RecipeBookListener implements Listener {
             if (pdc.has(gui_id_key)) {
                 if (pdc.getOrDefault(gui_id_key, PersistentDataType.STRING, "").equals("back_btn")) {
                     recipeBook.buildSelectionMenu(0);
+                    player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,1,1);
                 }
 
                 if (pdc.getOrDefault(gui_id_key, PersistentDataType.STRING, "").equals("next_btn")) {
@@ -63,6 +68,7 @@ public class RecipeBookListener implements Listener {
                 }
             } else if (pdc.has(recipe_num_key)) {
                 recipeBook.selectRecipe(pdc.getOrDefault(page_num_key,PersistentDataType.INTEGER,0),pdc.getOrDefault(recipe_num_key,PersistentDataType.INTEGER,0));
+                player.playSound(player.getLocation(), Sound.UI_HUD_BUBBLE_POP,1,1);
             } else return;
         }
     }
@@ -82,8 +88,11 @@ public class RecipeBookListener implements Listener {
         if (!container.has(special_effectKey, PersistentDataType.STRING)) return;
         if (!Objects.equals(container.get(special_effectKey, PersistentDataType.STRING), "recipe_book")) return;
 
+        Player player = event.getPlayer();
+
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             this.recipeBookManager.open(event.getPlayer());
+            player.playSound(player.getLocation(), Sound.UI_LOOM_SELECT_PATTERN,1,1);
         }
     }
 }

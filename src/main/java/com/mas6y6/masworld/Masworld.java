@@ -1,5 +1,6 @@
 package com.mas6y6.masworld;
 
+import com.mas6y6.masworld.Commands.TestCommands;
 import com.mas6y6.masworld.Commands.XPBottler;
 import com.mas6y6.masworld.ItemEffects.ItemEffects;
 import com.mas6y6.masworld.Items.Items;
@@ -29,6 +30,7 @@ public final class Masworld extends JavaPlugin {
     public ItemEffects itemEffects;
     public XPBottler xpBottler;
     public RecipeBookManager recipeBookManager;
+    public TestCommands testCommands;
 
     public static Masworld instance() {
         return instance;
@@ -78,15 +80,16 @@ public final class Masworld extends JavaPlugin {
         logger.info("Starting RecipeBookManager");
         this.recipeBookManager = new RecipeBookManager();
 
+        this.testCommands = new TestCommands();
+
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
             LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("masworld");
             commands.registrar().register(this.xpBottler.cmd.build());
             root.then(Commands.literal("reload").executes(this::pluginReloadcommmand));
-
-            // build commands
             root.then(itemEffects.buildCommands());
+            items.commandsRegister(root);
 
-            items.commandsRegister(commands);
+            testCommands.buildCommands(root);
 
             commands.registrar().register(root.build());
         });

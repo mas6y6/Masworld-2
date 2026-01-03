@@ -21,7 +21,7 @@ public class Items {
         this.attributesHandle = new AttributesHandle();
     }
 
-    public void commandsRegister(ReloadableRegistrarEvent<@NotNull Commands> commandEvent) {
-        commandEvent.registrar().register(attributesHandle.buildCommands().build());
+    public void commandsRegister(LiteralArgumentBuilder<CommandSourceStack> root) {
+        root.then(attributesHandle.buildCommands());
     }
 }

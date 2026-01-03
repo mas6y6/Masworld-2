@@ -1,10 +1,12 @@
 package com.mas6y6.masworld.RecipeBook;
 
 import com.mas6y6.masworld.Masworld;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -84,12 +86,14 @@ public class RecipeBook implements InventoryHolder {
     public void nextPage() {
         if (!(this.menu_page == this.max_page - 1)) {
             buildSelectionMenu(this.menu_page + 1);
+            player.playSound(player.getLocation(),Sound.UI_LOOM_TAKE_RESULT,1,1);
         }
     }
 
     public void previousPage() {
         if (!(this.menu_page == 0)) {
             buildSelectionMenu(this.menu_page - 1);
+            player.playSound(player.getLocation(),Sound.UI_LOOM_TAKE_RESULT,1,1);
         }
     }
 
@@ -105,6 +109,8 @@ public class RecipeBook implements InventoryHolder {
         for (int i = 0; i < inventory.getSize(); i++) {
             inventory.setItem(i,RecipeBookUtils.getPlaceholderItem());
         }
+
+
 
         this.menu_id = "recipe";
 

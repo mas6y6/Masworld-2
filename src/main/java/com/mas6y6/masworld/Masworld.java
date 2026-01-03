@@ -5,6 +5,7 @@ import com.mas6y6.masworld.Commands.XPBottler;
 import com.mas6y6.masworld.ItemEffects.ItemEffects;
 import com.mas6y6.masworld.Items.Items;
 import com.mas6y6.masworld.Objects.TextSymbols;
+import com.mas6y6.masworld.PhoneDialog.PhoneManager;
 import com.mas6y6.masworld.RecipeBook.RecipeBookManager;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -30,6 +31,7 @@ public final class Masworld extends JavaPlugin {
     public ItemEffects itemEffects;
     public XPBottler xpBottler;
     public RecipeBookManager recipeBookManager;
+    public PhoneManager phoneManager;
     public TestCommands testCommands;
 
     public static Masworld instance() {
@@ -79,6 +81,8 @@ public final class Masworld extends JavaPlugin {
 
         logger.info("Starting RecipeBookManager");
         this.recipeBookManager = new RecipeBookManager();
+
+        this.phoneManager = new PhoneManager();
 
         this.testCommands = new TestCommands();
 

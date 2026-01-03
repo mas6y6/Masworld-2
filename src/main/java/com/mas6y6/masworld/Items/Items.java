@@ -12,6 +12,8 @@ public class Items {
     public AttributesHandle attributesHandle;
 
     public PumpkinBlindness pumpkinBlindness;
+
+    public AdminStickHandler adminStickHandler;
     
     public Items() {
         Masworld.instance().getServer().getPluginManager().registerEvents(new WeaponListeners(this), Masworld.instance());
@@ -22,6 +24,7 @@ public class Items {
     }
 
     public void commandsRegister(ReloadableRegistrarEvent<@NotNull Commands> commandEvent) {
+        commandEvent.registrar().register(adminStickHandler.buildAdminStickCMD().build());
         commandEvent.registrar().register(attributesHandle.buildCommands().build());
     }
 }

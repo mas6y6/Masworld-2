@@ -35,7 +35,7 @@ public class GetAdminStick {
             .minReach(1.0f)
             .maxReach(10.0f)
             .minCreativeReach(0.5f)
-            .maxCreativeReach(100.0f)
+            .maxCreativeReach(64.0f)
             .build();
         _adminStick.setData(DataComponentTypes.ATTACK_RANGE, adminstickrange);
         

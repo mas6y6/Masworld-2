@@ -38,6 +38,10 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
+    Essentials:
+      load: BEFORE
+      required: true
+      join-classpath: true
     Vault:
       load: BEFORE
       required: true

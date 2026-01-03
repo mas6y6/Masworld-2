@@ -68,7 +68,7 @@ public class RecipeBookListener implements Listener {
                 }
             } else if (pdc.has(recipe_num_key)) {
                 recipeBook.selectRecipe(pdc.getOrDefault(page_num_key,PersistentDataType.INTEGER,0),pdc.getOrDefault(recipe_num_key,PersistentDataType.INTEGER,0));
-                player.playSound(player.getLocation(), Sound.UI_HUD_BUBBLE_POP,1,1);
+                player.playSound(player.getLocation(), Sound.UI_HUD_BUBBLE_POP,5,1);
             } else return;
         }
     }

@@ -13,8 +13,10 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.text.Component;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -33,6 +35,7 @@ public final class Masworld extends JavaPlugin {
     public RecipeBookManager recipeBookManager;
     public PhoneManager phoneManager;
     public TestCommands testCommands;
+    public Economy economy;
 
     public static Masworld instance() {
         return instance;
@@ -85,6 +88,13 @@ public final class Masworld extends JavaPlugin {
         this.phoneManager = new PhoneManager();
 
         this.testCommands = new TestCommands();
+
+        logger.info("Hooking into VaultAPI");
+        if (!setupEconomy() ) {
+            getLogger().severe("Disabled due to no Vault dependency found!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
             LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("masworld");
@@ -148,5 +158,17 @@ public final class Masworld extends JavaPlugin {
         recipeBookManager.reload();
 
         getLogger().info("Reload Complete");
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return true;
     }
 }

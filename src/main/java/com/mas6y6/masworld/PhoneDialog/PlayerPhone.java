@@ -1,5 +1,7 @@
 package com.mas6y6.masworld.PhoneDialog;
 
+import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.api.UserDoesNotExistException;
 import com.mas6y6.masworld.Masworld;
 import io.papermc.paper.dialog.Dialog;
 import io.papermc.paper.registry.data.dialog.ActionButton;
@@ -11,8 +13,10 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -70,7 +74,8 @@ Click the buttons below to enter a menu. Or press ESC or the X button to close.
                             Component.text("Click to open digital recipe book"),
                             300,
                             DialogAction.staticAction(ClickEvent.callback(callback -> {
-                                        player.showDialog(underConstruction());
+                                        this.close(callback);
+                                        Masworld.instance().recipeBookManager.open(player);
                                     })
                             )),
                     ActionButton.create(Component.text("Personal Vault"),
@@ -86,7 +91,104 @@ Click the buttons below to enter a menu. Or press ESC or the X button to close.
                             DialogAction.staticAction(ClickEvent.callback(callback -> {
                                         player.showDialog(underConstruction());
                                     })
+                            )),
+                    ActionButton.create(Component.text("Homes"),
+                            Component.text("Click to open homes"),
+                            300,
+                            DialogAction.staticAction(ClickEvent.callback(callback -> {
+                                        player.showDialog(underConstruction());
+                                    })
                             ))
+            );
+
+            builder.empty()
+                    .base(base.build())
+                    .type(DialogType.multiAction(actions)
+                            .exitAction(ActionButton.create(Component.text("Close"),
+                                    Component.text("Click to close your phone"),
+                                    300,
+                                    DialogAction.staticAction(ClickEvent.callback(this::close))))
+                            .columns(1)
+                            .build());
+        });
+
+        return dialog;
+    }
+
+    public Dialog bankAccount() {
+        String balance = Masworld.instance().economy.format(Masworld.instance().economy.getBalance(player));
+        String exactBalance = String.valueOf(Masworld.instance().economy.getBalance(player));
+
+        Dialog dialog = Dialog.create(builder -> {
+            DialogBase.Builder base = DialogBase.builder(Component.text("Phone - Bank Account"));
+            base.canCloseWithEscape(true);
+            base.afterAction(DialogBase.DialogAfterAction.CLOSE);
+
+            List<DialogBody> bodyList = List.of(
+                    DialogBody.plainMessage(
+                            MiniMessage.miniMessage().deserialize(String.format("""
+Holder: %s (%s)
+Balance: %s
+Exact Balance: %s
+
+""",player.displayName(),player.getName(),balance,exactBalance))
+                    )
+            );
+
+            base.body(bodyList);
+
+            List<ActionButton> actions = List.of(
+                    ActionButton.create(Component.text("Back"),
+                            Component.text("Go back to main menu"),
+                            300,
+                            DialogAction.staticAction(ClickEvent.callback(callback -> {
+                                        player.closeDialog();
+                                        player.showDialog(mainMenu());
+                                    })
+                            )
+                    )
+            );
+
+            builder.empty()
+                    .base(base.build())
+                    .type(DialogType.multiAction(actions)
+                            .exitAction(ActionButton.create(Component.text("Close"),
+                                    Component.text("Click to close your phone"),
+                                    300,
+                                    DialogAction.staticAction(ClickEvent.callback(this::close))))
+                            .columns(1)
+                            .build());
+        });
+
+        return dialog;
+    }
+
+    public Dialog errorDialog() {
+        Dialog dialog = Dialog.create(builder -> {
+            DialogBase.Builder base = DialogBase.builder(Component.text("Phone - Error"));
+            base.canCloseWithEscape(true);
+            base.afterAction(DialogBase.DialogAfterAction.CLOSE);
+
+            List<DialogBody> bodyList = List.of(
+                    DialogBody.plainMessage(
+                            MiniMessage.miniMessage().deserialize("""
+Something went wrong.
+""")
+                    )
+            );
+
+            base.body(bodyList);
+
+            List<ActionButton> actions = List.of(
+                    ActionButton.create(Component.text("Back"),
+                            Component.text("Go back to main menu"),
+                            300,
+                            DialogAction.staticAction(ClickEvent.callback(callback -> {
+                                        player.closeDialog();
+                                        player.showDialog(mainMenu());
+                                    })
+                            )
+                    )
             );
 
             builder.empty()

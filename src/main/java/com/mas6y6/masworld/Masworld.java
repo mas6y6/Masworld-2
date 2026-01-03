@@ -12,7 +12,6 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -139,6 +138,7 @@ public final class Masworld extends JavaPlugin {
             }
         }
 
+        recipeBookManager.reload();
 
         getLogger().info("Reload Complete");
     }

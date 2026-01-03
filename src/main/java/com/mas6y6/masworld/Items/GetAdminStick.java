@@ -1,6 +1,6 @@
 package com.mas6y6.masworld.Items;
 
-import com.mas6y6.masworld.Items.Attributes.Utils.SetWeaponDamage;
+import com.mas6y6.masworld.Objects.SetWeaponDamage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;

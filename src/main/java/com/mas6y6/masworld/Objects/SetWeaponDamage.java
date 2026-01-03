@@ -1,4 +1,4 @@
-package com.mas6y6.masworld.Items.Attributes.Utils;
+package com.mas6y6.masworld.Objects;
 
 import com.mas6y6.masworld.Masworld;
 import org.bukkit.NamespacedKey;
@@ -7,17 +7,15 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 
 public class SetWeaponDamage {
     //private static AttributeModifier modifier;
     private static Plugin plugin = Masworld.instance();
 
     public static ItemStack weaponDamage(ItemStack item, double amount) {
-        ensureinit();
         ItemMeta meta = item.getItemMeta();
         if (meta == null) { return item; }
-        NamespacedKey key = new NamespacedKey(plugin, "admin_stick_damage");
+        NamespacedKey key = new NamespacedKey(Masworld.instance(), "admin_stick_damage");
         AttributeModifier modifier = new AttributeModifier(
             key,
             amount,

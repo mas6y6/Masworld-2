@@ -1,5 +1,5 @@
 name: Masworld
-version: '2.0.4'
+version: '2.0.6'
 main: com.mas6y6.masworld.Masworld
 api-version: '1.21'
 description: Masworld SMP Plugin

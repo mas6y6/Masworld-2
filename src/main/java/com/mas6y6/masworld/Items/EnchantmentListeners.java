@@ -2,9 +2,14 @@ package com.mas6y6.masworld.Items;
 
 import com.mas6y6.masworld.Masworld;
 import com.mas6y6.masworld.Objects.Utils;
+import io.papermc.paper.event.player.PlayerInventorySlotChangeEvent;
+import io.papermc.paper.event.player.PlayerPickItemEvent;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -14,8 +19,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -43,6 +51,12 @@ public class EnchantmentListeners implements Listener {
         }, 0L,20L);
 
         Bukkit.getScheduler().runTaskTimer(Masworld.instance(),this::photosynthisEnchantmentTick, 0L, 80L);
+
+        Bukkit.getScheduler().runTaskTimer(Masworld.instance(), () -> {
+            for (Player player : Masworld.instance().getServer().getOnlinePlayers()) {
+                applyLengthAttribute(player, player.getInventory().getItemInMainHand());
+            }
+        },0L,1L);
     }
 
     @EventHandler
@@ -402,6 +416,27 @@ public class EnchantmentListeners implements Listener {
             if (event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    public void applyLengthAttribute(Player player, ItemStack mainHand) {
+        AttributeInstance blockInteractionRangeAttribute = player.getAttribute(Attribute.BLOCK_INTERACTION_RANGE);
+
+        NamespacedKey key = new NamespacedKey("masworld", "length");
+
+        assert blockInteractionRangeAttribute != null;
+        blockInteractionRangeAttribute.removeModifier(key);
+
+        if (mainHand.containsEnchantment(Utils.getEnchantment(key))) {
+            AttributeModifier attributeModifier = new AttributeModifier(
+                    key,
+                    mainHand.getEnchantmentLevel(Utils.getEnchantment(key)),
+                    AttributeModifier.Operation.ADD_NUMBER
+            );
+
+            blockInteractionRangeAttribute.addModifier(attributeModifier);
+        } else {
+            blockInteractionRangeAttribute.removeModifier(key);
         }
     }
 }

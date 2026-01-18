@@ -75,5 +75,7 @@ public class RecipeBookManager {
             entry.getValue().close();
             this.recipeBookGuis.remove(entry.getKey());
         }
+
+        this.recipeBookGuis = new HashMap<>();
     }
 }

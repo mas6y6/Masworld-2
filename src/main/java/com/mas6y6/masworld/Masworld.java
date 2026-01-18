@@ -1,5 +1,6 @@
 package com.mas6y6.masworld;
 
+import net.ess3.api.IEssentials;
 import com.mas6y6.masworld.Commands.TestCommands;
 import com.mas6y6.masworld.Commands.XPBottler;
 import com.mas6y6.masworld.ItemEffects.ItemEffects;
@@ -14,12 +15,15 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
@@ -36,6 +40,7 @@ public final class Masworld extends JavaPlugin {
     public PhoneManager phoneManager;
     public TestCommands testCommands;
     public Economy economy;
+    public IEssentials iEssentials;
 
     public static Masworld instance() {
         return instance;
@@ -88,10 +93,16 @@ public final class Masworld extends JavaPlugin {
         this.phoneManager = new PhoneManager();
 
         this.testCommands = new TestCommands();
-
         logger.info("Hooking into VaultAPI");
         if (!setupEconomy() ) {
             getLogger().severe("Disabled due to no Vault dependency found!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        logger.info("Hooking into EssentialsX API");
+        if (!setupEssentials() ) {
+            getLogger().severe("Disabled due to no EssentialsX dependency found!");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -156,6 +167,10 @@ public final class Masworld extends JavaPlugin {
         }
 
         recipeBookManager.reload();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.closeInventory();
+        }
+        this.recipeBookManager = new RecipeBookManager();
 
         getLogger().info("Reload Complete");
     }
@@ -169,6 +184,17 @@ public final class Masworld extends JavaPlugin {
             return false;
         }
         economy = rsp.getProvider();
+        return true;
+    }
+
+    private boolean setupEssentials() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("Essentials");
+
+        if (!(plugin instanceof IEssentials)) {
+            return false;
+        }
+
+        iEssentials = (IEssentials) plugin;
         return true;
     }
 }

@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -215,4 +216,33 @@ public class Utils {
                 .getRegistry(RegistryKey.ENCHANTMENT)
                 .getOrThrow(namespacedKey);
     }
+
+    private static final NumberFormat MONEY_FORMAT =
+            NumberFormat.getCurrencyInstance(Locale.US);
+
+    public static String formatMoney(double amount) {
+        return MONEY_FORMAT.format(amount);
+    }
+
+    public static float toFloat(double value) {
+        if (value > Float.MAX_VALUE) return Float.MAX_VALUE;
+        if (value < -Float.MAX_VALUE) return -Float.MAX_VALUE;
+        return (float) value;
+    }
+
+    public static float parseFloatStrict(String input) {
+        if (input == null) {
+            throw new IllegalArgumentException("Input cannot be null");
+        }
+
+        try {
+            return Float.parseFloat(input.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    "Invalid float value: \"" + input + "\"",
+                    e
+            );
+        }
+    }
+
 }

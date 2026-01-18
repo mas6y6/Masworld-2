@@ -4,6 +4,7 @@ import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.event.RegistryEvents;
@@ -203,7 +204,7 @@ public class MasworldBootstrap implements PluginBootstrap {
                                     .description(Utils.createEnchantmentComponent("\uefe6", TextColor.color(0x0073ff),"Length"))
                                     .supportedItems(event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_MINING))
                                     .anvilCost(20)
-                                    .maxLevel(2)
+                                    .maxLevel(5)
                                     .minimumCost(EnchantmentRegistryEntry.EnchantmentCost.of(15, 20))
                                     .maximumCost(EnchantmentRegistryEntry.EnchantmentCost.of(30, 20))
                                     .weight(1)
